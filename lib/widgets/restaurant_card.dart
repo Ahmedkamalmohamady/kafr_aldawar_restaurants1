@@ -39,16 +39,11 @@ class RestaurantCard extends StatelessWidget {
                         bottomLeft: Radius.circular(20),
                         topLeft: Radius.circular(20)
                     ),
-                    child: Card(
-                      child: ListTile(
+                    child: ListTile(
                         contentPadding: EdgeInsets.all(size.width * 0.02),
-                        title: const Text('Restaurant Name', overflow: TextOverflow.ellipsis, softWrap: false, maxLines: 1,),
-                        subtitle: const Text('Categories', overflow: TextOverflow.ellipsis, softWrap: false, maxLines: 1,),
-                        trailing: Container(
-                          alignment: Alignment.center,
-                          child: Icon(Icons.favorite_border, color: Theme.of(context).primaryColor,),
-                        ),
-                      ),
+                        title: const Text('اسم المطعم', overflow: TextOverflow.ellipsis, softWrap: false, maxLines: 1,),
+                        subtitle: const Text('التصنيفات', overflow: TextOverflow.ellipsis, softWrap: false, maxLines: 1,),
+                        trailing: Icon(Icons.favorite_border, color: Theme.of(context).primaryColor,)
                     ),
                   ),
                 )

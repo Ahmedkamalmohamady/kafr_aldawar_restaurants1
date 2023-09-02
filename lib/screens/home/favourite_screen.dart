@@ -11,6 +11,7 @@ class FavouriteScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: size.height * 0.06),
 
@@ -18,7 +19,7 @@ class FavouriteScreen extends StatelessWidget {
         Text('المطاعم المفضلة', style: Theme.of(context).textTheme.titleLarge),
 
         SizedBox(height: size.height * 0.02),
-        const Text('لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل ليتصور طريقه', style: TextStyle(fontSize: 15, color: Colors.grey),),
+        const Text('لوريم ايبسوم هو نموذج افتراضي يوضع في التصاميم', style: TextStyle(fontSize: 15, color: Colors.grey),),
 
         SizedBox(height: size.height * 0.02),
 

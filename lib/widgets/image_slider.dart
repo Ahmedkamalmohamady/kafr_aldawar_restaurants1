@@ -9,24 +9,25 @@ class ImagesSlider extends StatelessWidget {
 
     var size = MediaQuery.of(context).size;
 
-    return CarouselSlider.builder(
-      itemCount: 0,
-      itemBuilder: (_, index, realIndex) => Stack(
-        children: [
-          Image.asset('assets/images/categories/pizza.png', width: size.width, height: size.height * 0.17,),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: CircleAvatar(
-              radius: 100,
-              child: Image.asset('assets/images/categories/drink.png')
+    return SizedBox(
+      height: size.height * 0.17,
+      width: size.width,
+      child: CarouselSlider.builder(
+        itemCount: 0,
+        itemBuilder: (_, index, realIndex) => Stack(
+          children: [
+            Image.asset('assets/images/categories/pizza.png', width: size.width, height: size.height * 0.16,),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Image.asset('assets/images/categories/drink.png', width: size.width * 0.1, height: size.height * 0.1,)
             ),
-          ),
-        ]
-      ),
-      options: CarouselOptions(
-        height: size.height * .3,
-        autoPlay: true,
-        enlargeCenterPage: true,
+          ]
+        ),
+        options: CarouselOptions(
+          height: size.height * .3,
+          autoPlay: true,
+          enlargeCenterPage: true,
+        ),
       ),
     );
   }

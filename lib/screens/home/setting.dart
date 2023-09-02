@@ -22,6 +22,7 @@ class _SettingState extends State<Setting> {
       child: Padding(
         padding: EdgeInsets.all(size.height * 0.02),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: size.height * 0.03),
 
