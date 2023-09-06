@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kafr_aldawar_restaurants/screens/splash_screen.dart';
 
 import 'screens/home/home_screen.dart';
 import 'themes/themes.dart';
@@ -26,7 +27,7 @@ class _MyAppState extends State<MyApp> {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.light,
-      home: const HomeScreen(),
+      home:  SplashScreen(),
     );
   }
 }
