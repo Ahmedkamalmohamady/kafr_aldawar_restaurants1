@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kafr_aldawar_restaurants/screens/splash_screen.dart';
 
-import 'screens/home/home_screen.dart';
+import 'screens/splash/splash_screen.dart';
+
 import 'themes/themes.dart';
 
 
@@ -26,8 +26,8 @@ class _MyAppState extends State<MyApp> {
       title: 'مطاعم كفرالدوار',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.light,
-      home:  SplashScreen(),
+      themeMode: ThemeMode.dark,
+      home:  const SplashScreen(),
     );
   }
 }

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:kafr_aldawar_restaurants/screens/detils_screen.dart';
+import 'home/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  SplashScreenState createState() => SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
+class SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   AnimationController? _animationController;
   Animation<Offset>? _slideAnimation;
@@ -38,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen>
      // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => DetailsScreen()),
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
     });
   }

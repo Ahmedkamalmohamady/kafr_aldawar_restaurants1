@@ -10,16 +10,16 @@ class ImagesSlider extends StatelessWidget {
     var size = MediaQuery.of(context).size;
 
     return SizedBox(
-      height: size.height * 0.17,
+      height: size.height * 0.2,
       width: size.width,
       child: CarouselSlider.builder(
         itemCount: 0,
         itemBuilder: (_, index, realIndex) => Stack(
           children: [
-            Image.asset('assets/images/categories/pizza.png', width: size.width, height: size.height * 0.16,),
+            Image.asset('assets/images/categories/pizza.png', width: size.width, height: size.height * 0.15,),
             Align(
               alignment: Alignment.bottomCenter,
-              child: Image.asset('assets/images/categories/drink.png', width: size.width * 0.1, height: size.height * 0.1,)
+              child: Image.asset('assets/images/categories/pizza.png', width: size.width * 0.1, height: size.height * 0.1,)
             ),
           ]
         ),

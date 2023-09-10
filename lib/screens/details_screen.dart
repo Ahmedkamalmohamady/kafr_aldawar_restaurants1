@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../widgets/details_screen_widgets.dart';
 
 class DetailsScreen extends StatefulWidget {
+  const DetailsScreen({super.key});
+
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
 }
@@ -33,7 +35,7 @@ class _DetailsScreenState extends State<DetailsScreen>
                 height: (380 / 923) * height,
               ),
               ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     bottomRight: Radius.circular(25),
                     bottomLeft: Radius.circular(25)),
                 child: CustomNetworkImage(
@@ -84,13 +86,13 @@ class _DetailsScreenState extends State<DetailsScreen>
                       padding: const EdgeInsets.symmetric(vertical: 10.0),
                       child: Row(
                         children: [
-                          Spacer(flex: 2),
+                          const Spacer(flex: 2),
                           GestureDetector(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => DetailPage(
+                                  builder: (context) => const DetailPage(
                                     imageUrl:
                                     'https://scontent.fcai19-5.fna.fbcdn.net/v/t39.30808-6/329126097_1556236998213901_9082040199403998335_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=37c68a&_nc_ohc=Bv3pOkK7-SwAX-XQPHk&_nc_ht=scontent.fcai19-5.fna&oh=00_AfAkn9C9Owqi8sa21BiO6qronj45JpefbjV1LAx10Cfblg&oe=64FA9784',
                                   ),
@@ -113,13 +115,13 @@ class _DetailsScreenState extends State<DetailsScreen>
                               ],
                             ),
                           ),
-                          Spacer(flex: 1),
+                          const Spacer(flex: 1),
                           GestureDetector(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => DetailPage(
+                                  builder: (context) => const DetailPage(
                                     imageUrl:
                                     'https://scontent.fcai19-5.fna.fbcdn.net/v/t39.30808-6/329126097_1556236998213901_9082040199403998335_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=37c68a&_nc_ohc=Bv3pOkK7-SwAX-XQPHk&_nc_ht=scontent.fcai19-5.fna&oh=00_AfAkn9C9Owqi8sa21BiO6qronj45JpefbjV1LAx10Cfblg&oe=64FA9784',
                                   ),
@@ -141,7 +143,7 @@ class _DetailsScreenState extends State<DetailsScreen>
                               ],
                             ),
                           ),
-                          Spacer(flex: 2),
+                          const Spacer(flex: 2),
                         ],
                       ),
                     ),
@@ -150,51 +152,49 @@ class _DetailsScreenState extends State<DetailsScreen>
 
                 ///تانى حاجه بتاعة البيانات
                 SingleChildScrollView(
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomLocationContainer(height: height, width: width),
-                        ExpansionTile(
-                          textColor: orangeColor,
-                          iconColor: orangeColor,
-                          title: Text(
-                            'الارقام',
-                            style: TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.w600,
-                            ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomLocationContainer(height: height, width: width),
+                      ExpansionTile(
+                        textColor: orangeColor,
+                        iconColor: orangeColor,
+                        title: const Text(
+                          'الارقام',
+                          style: TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w600,
                           ),
-                          children: [
-                            ///المفروض ليست فيها رقم التليفون والفانكشن بتاعة الكول تتعمل وممكن نزود اوبشن ارقم تلبفون انهى فرع لو فى فروع تانيه
-                            ///وممكن نخليها ليست فيو لو منفعتش expansiontile دى
-                            CustomNumberContainer(
-                                height: height,
-                                width: width,
-                                orangeColor: orangeColor),
-                            CustomNumberContainer(
-                                height: height,
-                                width: width,
-                                orangeColor: orangeColor),
-                            CustomNumberContainer(
-                                height: height,
-                                width: width,
-                                orangeColor: orangeColor),
-                          ],
                         ),
-                        SizedBox(
-                          height: 120,
-                          child: ListView.builder(
-                            itemCount: 2,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) =>
+                        children: [
+                          ///المفروض ليست فيها رقم التليفون والفانكشن بتاعة الكول تتعمل وممكن نزود اوبشن ارقم تلبفون انهى فرع لو فى فروع تانيه
+                          ///وممكن نخليها ليست فيو لو منفعتش expansiontile دى
+                          CustomNumberContainer(
+                              height: height,
+                              width: width,
+                              orangeColor: orangeColor),
+                          CustomNumberContainer(
+                              height: height,
+                              width: width,
+                              orangeColor: orangeColor),
+                          CustomNumberContainer(
+                              height: height,
+                              width: width,
+                              orangeColor: orangeColor),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 120,
+                        child: ListView.builder(
+                          itemCount: 2,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) =>
 
-                            ///المفروض هنعمل ليست راجع فيها موديل شايل الاسم والايقون
-                            CustomCategoryIcon(),
-                          ),
-                        )
-                      ],
-                    ),
+                          ///المفروض هنعمل ليست راجع فيها موديل شايل الاسم والايقون
+                          const CustomCategoryIcon(),
+                        ),
+                      )
+                    ],
                   ),
                 ),
 

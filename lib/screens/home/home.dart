@@ -20,72 +20,71 @@ class Home extends StatelessWidget {
             flexibleSpace: FlexibleSpaceBar(
               background: Column(
                 children: [
-                  SizedBox(height: size.height * 0.04),
+                  SizedBox(height: size.height * 0.035),
 
-                  const ImagesSlider(),
-                  SizedBox(height: size.height * 0.02),
+                  const ImagesSlider(), //0.2
+                  SizedBox(height: size.height * 0.01),
 
-                  // search bar + drawer + filter
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: (){},
-                        icon: const Icon(Icons.notes),
-                      ),
-                      SizedBox(width: size.width * 0.02),
-                      Expanded(
-                        child: SizedBox(
-                          height: size.height * 0.07,
-                          child: const TextField(
-                            //controller: _typeController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(25))
+                  // search bar + drawer + filter //0.08
+                  SizedBox(
+                    height: size.height * 0.08,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: (){},
+                          icon: const Icon(Icons.notes),
+                        ),
+                        SizedBox(width: size.width * 0.02),
+                        Expanded(
+                          child: SizedBox(
+                            height: size.height * 0.07,
+                            child: const TextField(
+                              //controller: _typeController,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(25))
+                                ),
+                                labelText: 'بحث شامل ...',
+                                //labelStyle: Theme.of(context).textTheme.bodySmall,
+                                prefixIcon: Icon(Icons.search, ),//color: Theme.of(context).primaryColor,),
                               ),
-                              labelText: 'بحث شامل ...',
-                              //labelStyle: Theme.of(context).textTheme.bodySmall,
-                              prefixIcon: Icon(Icons.search, ),//color: Theme.of(context).primaryColor,),
+                              keyboardType: TextInputType.text,
                             ),
-                            keyboardType: TextInputType.text,
                           ),
                         ),
-                      ),
-                      SizedBox(width: size.width * 0.02),
-                      IconButton(
-                        onPressed: (){},
-                        icon: const Icon(Icons.filter_list),
-                      ),
-                    ],
+                        SizedBox(width: size.width * 0.02),
+                        IconButton(
+                          onPressed: (){},
+                          icon: const Icon(Icons.filter_list),
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(height: size.height * 0.02),
+                  SizedBox(height: size.height * 0.01),
 
                   // category list
                   Expanded(
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: 20,
-                        itemBuilder: (ctx, index) => Card(
+                        itemBuilder: (ctx, index) => Padding(
+                          padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Container(
-                                margin: EdgeInsets.all(size.height * 0.01),
-                                width: size.height * 0.09,
-                                height: size.height * 0.07,
-                                decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                                  //color: Theme.of(context).focusColor,
-                                ),
-                                child: Image.asset('assets/images/categories/pizza.png', fit: BoxFit.contain,),
+                              Card(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(size.height * 0.01),
+                                    child: Image.asset('assets/images/categories/pizza.png', height: size.height * 0.08),
+                                  )
                               ),
                               const Text('بيتزا')
                             ],
                           ),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: size.height * 0.01)
                     ),
                   ),
-                  SizedBox(height: size.height * 0.03),
+                  //SizedBox(height: size.height * 0.01),
                 ],
               ),
             ),

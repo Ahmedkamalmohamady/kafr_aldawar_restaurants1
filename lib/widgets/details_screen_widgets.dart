@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 
@@ -17,9 +19,9 @@ class CustomCategoryIcon extends StatelessWidget {
             width: 67,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20), color: Colors.white),
-            child: Icon(Icons.local_pizza, size: 50),
+            child: const Icon(Icons.local_pizza, size: 50),
           ),
-          Text(
+          const Text(
             'بيتزا',
             style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
           )
@@ -46,21 +48,24 @@ class CustomNumberContainer extends StatelessWidget {
     return Container(
       height: 71 / 926 * height,
       width: width,
+      decoration: const BoxDecoration(
+        color: Color(0xffD9D9D9),
+      ),
       child: Row(
         children: [
-          Spacer(
+          const Spacer(
             flex: 1,
           ),
-          Text(
+          const Text(
             '01211456345+',
             style: TextStyle(fontWeight: FontWeight.w600, fontSize: 19),
           ),
-          Spacer(
+          const Spacer(
             flex: 4,
           ),
           GestureDetector(
             onTap: () {
-              print('object');
+              log('object');
             },
             child: Padding(
               padding: const EdgeInsets.all(13.0),
@@ -95,9 +100,6 @@ class CustomNumberContainer extends StatelessWidget {
           )
         ],
       ),
-      decoration: BoxDecoration(
-        color: Color(0xffD9D9D9),
-      ),
     );
   }
 }
@@ -119,7 +121,11 @@ class CustomLocationContainer extends StatelessWidget {
       child: Container(
         height: 71 / 926 * height,
         width: width,
-        child: Row(
+        decoration: BoxDecoration(
+          color: const Color(0xffD9D9D9),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: const Row(
           children: [
             Spacer(
               flex: 1,
@@ -136,10 +142,6 @@ class CustomLocationContainer extends StatelessWidget {
               flex: 5,
             )
           ],
-        ),
-        decoration: BoxDecoration(
-          color: Color(0xffD9D9D9),
-          borderRadius: BorderRadius.circular(20),
         ),
       ),
     );
@@ -205,7 +207,7 @@ class CustomNetworkImage extends StatelessWidget {
     return Image.network(
         fit: BoxFit.cover,
         height: height == null ? double.infinity : (300 / 923) * height!,
-        '$imageUrl', loadingBuilder: (context, child, loadingProgress) {
+        imageUrl, loadingBuilder: (context, child, loadingProgress) {
       if (loadingProgress == null) {
         return child;
       }
@@ -225,7 +227,7 @@ class CustomNetworkImage extends StatelessWidget {
 class DetailPage extends StatelessWidget {
   final String imageUrl;
 
-  const DetailPage({required this.imageUrl});
+  const DetailPage({super.key, required this.imageUrl});
 
   @override
   Widget build(BuildContext context) {
