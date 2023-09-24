@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../colors.dart';
 
 class AppTheme {
 
   static ThemeData lightTheme = ThemeData(
-    //brightness: Brightness.light,
-    primaryColor: const Color(0xffEF9E28),
-    canvasColor: const Color(0xffFEFAE5),
+    primaryColor: primary,
+    canvasColor: canvas,
     focusColor: const Color(0xffEF9E28).withOpacity(0.1),
     dividerColor: const Color(0xffBBBBBB),
     hintColor: Colors.white,
     splashColor: Colors.white,
-    colorScheme: const ColorScheme.light(
+    colorScheme: ColorScheme.light(
       background: Colors.white,
-      primary: Color(0xff22BB9C),
-      secondary: Color(0xffFEFAE5),
+      primary: primary,
+      secondary: canvas,
       shadow: Colors.black,
       error: Colors.red,
     ),
@@ -22,10 +22,17 @@ class AppTheme {
       displayLarge: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.black)),
       displayMedium: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.black87)),
       displaySmall: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.black54)),
+      titleLarge: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.black)),
+      titleMedium: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.black87)),
+      titleSmall: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.black54)),
+      bodyLarge: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.black)),
+      bodyMedium: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.black87)),
+      bodySmall: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.black54)),
+      labelLarge: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.black)),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
         elevation: 8,
         shadowColor: const Color(0xffEF9E28),
         backgroundColor: const Color(0xffEF9E28),
@@ -33,15 +40,13 @@ class AppTheme {
       )
     ),
     cardTheme: CardTheme(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       elevation: 1,
       shadowColor: Colors.black,
       color: Colors.white,
     ),
-    dialogTheme: const DialogTheme(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
-      ),
+    dialogTheme: DialogTheme(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       elevation: 10,
       backgroundColor: Colors.white,
     ),
@@ -51,17 +56,16 @@ class AppTheme {
   );
 
   static ThemeData darkTheme = ThemeData(
-    //brightness: Brightness.light,
-    primaryColor: const Color(0xffEF9E28),
-    canvasColor: const Color(0xffFEFAE5),
+    primaryColor: primary,
+    canvasColor: canvas,
     focusColor: const Color(0xffEF9E28).withOpacity(0.1),
     dividerColor: const Color(0xffBBBBBB),
     hintColor: const Color(0xff35383F),
     splashColor: const Color(0xff181A20),
-    colorScheme: const ColorScheme.light(
-      background: Color(0xff181A20),
-      primary: Color(0xffEF9E28),
-      secondary: Color(0xffFEFAE5),
+    colorScheme: ColorScheme.dark(
+      background: const Color(0xff181A20),
+      primary: primary,
+      secondary: canvas,
       shadow: Colors.white60,
       error: Colors.red,
     ),
@@ -81,8 +85,8 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           elevation: 8,
-          shadowColor: const Color(0xffEF9E28),
-          backgroundColor: const Color(0xffEF9E28),
+          shadowColor: primary,
+          backgroundColor: primary,
           textStyle: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.white)),
         )
     ),
@@ -92,12 +96,10 @@ class AppTheme {
       shadowColor: Colors.white60,
       color: const Color(0xff35383F),
     ),
-    dialogTheme: const DialogTheme(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
-      ),
+    dialogTheme: DialogTheme(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       elevation: 10,
-      backgroundColor: Color(0xff35383F),
+      backgroundColor: const Color(0xff35383F),
     ),
     scaffoldBackgroundColor: const Color(0xff181A20),
     disabledColor: const Color(0xff828282),

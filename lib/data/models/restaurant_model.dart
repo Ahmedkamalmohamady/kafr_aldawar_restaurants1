@@ -1,17 +1,19 @@
 
 class RestaurantForCard {
   String restaurantId;
-  String imageUrl;
+  String logoImageUrl;
   String title;
   List categories;
   bool fav;
+  bool verified;
 
   RestaurantForCard({
     this.restaurantId = '',
-    this.imageUrl = '',
+    this.logoImageUrl = '',
     this.title = '',
     this.categories = const [],
     this.fav = false,
+    this.verified = false,
 
   });
 
@@ -19,18 +21,20 @@ class RestaurantForCard {
     return RestaurantForCard(
       restaurantId: map['restaurantId'] ?? '',
       title: map['title'] ?? '',
-      imageUrl: map['imageUrl'] ?? '',
-      fav: map['fav'] ?? true,
+      logoImageUrl: map['logoImageUrl'] ?? '',
       categories: map['categories'] ?? [],
+      fav: map['fav'] ?? false,
+      verified: map['verified'] ?? false,
     );
   }
 
   static Map<String, dynamic> toMap(RestaurantForCard restaurantCard) => {
     "restaurantId": restaurantCard.restaurantId,
     "title": restaurantCard.title,
-    "imageUrl": restaurantCard.imageUrl,
-    "fav": restaurantCard.fav,
+    "logoImageUrl": restaurantCard.logoImageUrl,
     "categories": restaurantCard.categories,
+    "fav": restaurantCard.fav,
+    "verified": restaurantCard.verified,
   };
 }
 
@@ -43,6 +47,7 @@ class RestaurantDetails {
   int views;
   bool valid;
   bool fav;
+  bool verified;
   List<String> menuImagesList;
   List<String> restaurantImagesList;
   DateTime lastUpdate = DateTime.now();
@@ -60,6 +65,7 @@ class RestaurantDetails {
     this.views = 0,
     this.valid = false,
     this.fav = false,
+    this.verified = false,
     this.menuImagesList = const [],
     this.restaurantImagesList = const [],
     this.branches = const [],
@@ -75,7 +81,8 @@ class RestaurantDetails {
       logoImageUrl: map['logoImageUrl'] ?? '',
       views: map['views'] ?? 0,
       valid: map['valid'] ?? false,
-      fav: map['fav'] ?? true,
+      fav: map['fav'] ?? false,
+      verified: map['verified'] ?? false,
       menuImagesList: map['menuImagesList'] ?? [],
       restaurantImagesList: map['restaurantImagesList'] ?? [],
       branches: map['branches'] ?? [],
@@ -92,6 +99,7 @@ class RestaurantDetails {
     "views": restaurantDetails.views,
     "valid": restaurantDetails.valid,
     "fav": restaurantDetails.fav,
+    "verified": restaurantDetails.verified,
     "menuImagesList": restaurantDetails.menuImagesList,
     "restaurantImagesList": restaurantDetails.restaurantImagesList,
     "branches": restaurantDetails.branches,

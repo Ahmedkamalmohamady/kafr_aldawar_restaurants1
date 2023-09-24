@@ -16,3 +16,17 @@ class RestaurantsFetchingSuccessfulState extends RestaurantsState {
     required this.restaurants,
   });
 }
+
+class CategoriesInitial extends RestaurantsState {}
+
+class CategoriesFetchingLoadingState extends RestaurantsState {}
+
+class CategoriesFetchingErrorState extends RestaurantsState {}
+
+class CategoriesFetchingSuccessfulState extends RestaurantsState {
+  final List<Category> categoriesList;
+
+  CategoriesFetchingSuccessfulState({
+    required this.categoriesList,
+  });
+}

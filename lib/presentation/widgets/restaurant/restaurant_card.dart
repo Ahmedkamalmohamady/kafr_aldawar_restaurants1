@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
-class RestaurantCard extends StatelessWidget {
+import '../../../data/models/restaurant_model.dart';
 
-  const RestaurantCard({super.key});
+class RestaurantCard extends StatelessWidget {
+  final RestaurantForCard restaurant;
+  const RestaurantCard({super.key, required this.restaurant});
 
 
   @override
@@ -19,14 +21,10 @@ class RestaurantCard extends StatelessWidget {
                 child: SizedBox(
                   height: size.height * 0.1,
                   child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                        bottomRight: Radius.circular(20),
-                        topRight: Radius.circular(20)
-                    ),
+                    borderRadius: BorderRadius.circular(20),
                     child: Hero(
-                        tag: 'Id',
-                        child: Image.asset('assets/images/categories/drink.png')),
-                    //Image.file(File('imageUrl'),fit: BoxFit.cover)),
+                        tag: restaurant.restaurantId,
+                        child: Image.network(restaurant.logoImageUrl)),
                   ),
                 )
             ),
@@ -41,8 +39,13 @@ class RestaurantCard extends StatelessWidget {
                     ),
                     child: ListTile(
                         contentPadding: EdgeInsets.all(size.width * 0.02),
-                        title: const Text('اسم المطعم', overflow: TextOverflow.ellipsis, softWrap: false, maxLines: 1,),
-                        subtitle: const Text('التصنيفات', overflow: TextOverflow.ellipsis, softWrap: false, maxLines: 1,),
+                        title: Row(
+                          children: [
+                            Text(restaurant.title, overflow: TextOverflow.ellipsis, softWrap: false, maxLines: 1,),
+                            Icon(Icons.done, color: Theme.of(context).primaryColor,)
+                          ],
+                        ),
+                        subtitle: Text(restaurant.categories.toString(), overflow: TextOverflow.ellipsis, softWrap: false, maxLines: 1,),
                         trailing: Icon(Icons.favorite_border, color: Theme.of(context).primaryColor,)
                     ),
                   ),

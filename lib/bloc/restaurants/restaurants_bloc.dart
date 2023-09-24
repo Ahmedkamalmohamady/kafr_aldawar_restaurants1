@@ -1,16 +1,18 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:kafr_aldawar_restaurants/repos/restaurants_firebase.dart';
 import 'package:meta/meta.dart';
 
-import '../../models/restaurant_model.dart';
+import '../../data/models/restaurant_model.dart';
+import '../../data/models/category_model.dart';
+import '../../data/repos/restaurants_firebase.dart';
 
 part 'restaurants_event.dart';
 part 'restaurants_state.dart';
 
 class RestaurantsBloc extends Bloc<RestaurantsEvent, RestaurantsState> {
   RestaurantsBloc() : super(RestaurantsInitial()) {
+    on<CategoriesInitialFetchEvent>(categoriesInitialFetchEvent);
     on<RestaurantsInitialFetchEvent>(restaurantsInitialFetchEvent);
   }
 
@@ -22,5 +24,15 @@ class RestaurantsBloc extends Bloc<RestaurantsEvent, RestaurantsState> {
     List<RestaurantForCard> restaurants = await RestaurantsFirebaseManger.getRestaurants();
 
     emit(RestaurantsFetchingSuccessfulState(restaurants: restaurants));
+  }
+
+  FutureOr<void> categoriesInitialFetchEvent(
+      CategoriesInitialFetchEvent event, Emitter<RestaurantsState> emit) async {
+
+    emit(CategoriesFetchingLoadingState());
+
+    List<Category> categoriesList = await RestaurantsFirebaseManger.getCategories();
+
+    emit(CategoriesFetchingSuccessfulState(categoriesList: categoriesList));
   }
 }

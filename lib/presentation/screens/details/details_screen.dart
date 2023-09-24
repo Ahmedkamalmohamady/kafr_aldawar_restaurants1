@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/details_screen_widgets.dart';
+import '../../widgets/details_screen_widgets.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({super.key});
@@ -21,8 +21,7 @@ class _DetailsScreenState extends State<DetailsScreen>
 
   @override
   Widget build(BuildContext context) {
-    var width = MediaQuery.of(context).size.width;
-    var height = MediaQuery.of(context).size.height;
+    var size = MediaQuery.of(context).size;
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
@@ -31,8 +30,8 @@ class _DetailsScreenState extends State<DetailsScreen>
           Stack(
             children: [
               SizedBox(
-                width: width,
-                height: (380 / 923) * height,
+                width: size.width,
+                height: (380 / 923) * size.height,
               ),
               ClipRRect(
                 borderRadius: const BorderRadius.only(
@@ -41,7 +40,7 @@ class _DetailsScreenState extends State<DetailsScreen>
                 child: CustomNetworkImage(
                     imageUrl:
                     'https://scontent-lax3-2.xx.fbcdn.net/v/t39.30808-6/306097180_406548858289783_8439672170480249772_n.png?_nc_cat=101&ccb=1-7&_nc_sid=52f669&_nc_ohc=Yuk-jaNI7ZAAX-S8-69&_nc_ht=scontent-lax3-2.xx&oh=00_AfAl6GT4xznCKilwk7cdTMaejYvH9jWKqlHSUNcvXxJN7g&oe=64F8919F',
-                    height: height,
+                    height: size.height,
                     orangeColor: orangeColor),
               ),
               Positioned(
@@ -73,7 +72,7 @@ class _DetailsScreenState extends State<DetailsScreen>
           CustomButtonTapBar(
               tabController: _tabController,
               orangeColor: orangeColor,
-              width: width),
+              width: size.width),
           Expanded(
             child: TabBarView(
               controller: _tabController,
@@ -155,7 +154,7 @@ class _DetailsScreenState extends State<DetailsScreen>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomLocationContainer(height: height, width: width),
+                      CustomLocationContainer(height: size.height, width: size.width),
                       ExpansionTile(
                         textColor: orangeColor,
                         iconColor: orangeColor,
@@ -170,16 +169,16 @@ class _DetailsScreenState extends State<DetailsScreen>
                           ///المفروض ليست فيها رقم التليفون والفانكشن بتاعة الكول تتعمل وممكن نزود اوبشن ارقم تلبفون انهى فرع لو فى فروع تانيه
                           ///وممكن نخليها ليست فيو لو منفعتش expansiontile دى
                           CustomNumberContainer(
-                              height: height,
-                              width: width,
+                              height: size.height,
+                              width: size.width,
                               orangeColor: orangeColor),
                           CustomNumberContainer(
-                              height: height,
-                              width: width,
+                              height: size.height,
+                              width: size.width,
                               orangeColor: orangeColor),
                           CustomNumberContainer(
-                              height: height,
-                              width: width,
+                              height: size.height,
+                              width: size.width,
                               orangeColor: orangeColor),
                         ],
                       ),

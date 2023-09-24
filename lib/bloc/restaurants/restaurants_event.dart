@@ -5,5 +5,4 @@ abstract class RestaurantsEvent {}
 
 class RestaurantsInitialFetchEvent extends RestaurantsEvent{}
 
-
-class PostAddEvent extends RestaurantsEvent{}
+class CategoriesInitialFetchEvent extends RestaurantsEvent{}
