@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "473562240995",
+    "project_id": "restaurants-b1d28",
+    "storage_bucket": "restaurants-b1d28.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:473562240995:android:894e6220195c63fbcbb2d6",
+        "android_client_info": {
+          "package_name": "com.example.kafr_aldawar_restaurants"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "473562240995-m4h50t71m2j6giud462nr37ue7b8lmpo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDr8qCeeeAPi5eu1Z-Kbdo9f2NMIeQQZwc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "473562240995-m4h50t71m2j6giud462nr37ue7b8lmpo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "473562240995-7plepp6gm9jacogppq8vl2k7vvm2g238.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.restaurants"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
