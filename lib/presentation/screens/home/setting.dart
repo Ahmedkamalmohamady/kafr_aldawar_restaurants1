@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../bloc/theme/theme_bloc.dart';
 
 
 class Setting extends StatefulWidget {
@@ -10,9 +13,7 @@ class Setting extends StatefulWidget {
 
 class _SettingState extends State<Setting> {
 
-  bool theme = false;
-
-
+  final ThemeBloc themeBloc = ThemeBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,13 @@ class _SettingState extends State<Setting> {
 
             ListTile(
               title: const Text('الوضع الداكن'),
-              trailing: Switch(value: theme, onChanged: (val) => setState(() => theme = val)),
+              trailing: BlocBuilder<ThemeBloc, ThemeState>(
+                builder: (ctx, state) {
+                  return state.runtimeType == DarkThemeState?
+                  Switch(value: true, onChanged: (val) => themeBloc.add(ToggleThemeEvent())) :
+                  Switch(value: false, onChanged: (val) => themeBloc.add(ToggleThemeEvent()));
+                },
+              ),
             ),
             SizedBox(height: size.height * 0.02),
 
