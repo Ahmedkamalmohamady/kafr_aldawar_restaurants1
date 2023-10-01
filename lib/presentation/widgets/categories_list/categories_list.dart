@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../../data/models/category_model.dart';
+
 class CategoriesList extends StatelessWidget {
-  const CategoriesList({Key? key}) : super(key: key);
+  final List<Category> categories;
+  const CategoriesList({super.key, required this.categories});
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +12,7 @@ class CategoriesList extends StatelessWidget {
 
     return ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: 20,
+      itemCount: categories.length,
       itemBuilder: (ctx, index) => Padding(
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
         child: Column(
@@ -18,10 +21,10 @@ class CategoriesList extends StatelessWidget {
             Card(
                 child: Padding(
                   padding: EdgeInsets.all(size.height * 0.01),
-                  child: Image.asset('assets/images/categories/pizza.png', height: size.height * 0.08),
+                  child: Image.network(categories[index].logoUrl, height: size.height * 0.08),
                 )
             ),
-            const Text('بيتزا')
+            Text(categories[index].title)
           ],
         ),
       ),

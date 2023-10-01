@@ -1,26 +1,36 @@
 
+import 'dart:convert';
+
+
 class Category {
   List<String> restaurantIdsList;
   String title;
-  String imageUrl;
+  String logoUrl;
 
   Category({
     this.restaurantIdsList = const [],
     this.title = "",
-    this.imageUrl = "",
+    this.logoUrl = "",
   });
 
   factory Category.fromMap(Map<String, dynamic> map) {
     return Category(
-      restaurantIdsList: map['restaurantIdsList'] ?? '',
+      restaurantIdsList: List<String>.from(map['restaurantIdsList'] ?? []),
       title: map['title'] ?? '',
-      imageUrl: map['imageUrl'] ?? '',
+      logoUrl: map['logoUrl'] ?? '',
     );
   }
 
   static Map<String, dynamic> toMap(Category restaurantDetails) => {
     "restaurantIdsList": restaurantDetails.restaurantIdsList,
     "title": restaurantDetails.title,
-    "imageUrl": restaurantDetails.imageUrl,
+    "logoUrl": restaurantDetails.logoUrl,
   };
+
+  static String encode(List<Category> categoryList) => json.encode(
+      categoryList.map<Map<String, dynamic>>((category) => Category.toMap(category)).toList());
+
+  static List<Category> decode(String categoryList) => ((json.decode(categoryList))
+      .map((item) => item as Map<String, dynamic>).toList())
+      .map<Category>((item) => Category.fromMap(item)).toList();
 }

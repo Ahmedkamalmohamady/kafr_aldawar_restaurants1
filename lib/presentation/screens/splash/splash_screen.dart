@@ -16,12 +16,11 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
-  final RestaurantsBloc postsBloc = RestaurantsBloc();
+
 
   @override
   void initState() {
-    postsBloc.add(CategoriesInitialFetchEvent());
-    postsBloc.add(RestaurantsInitialFetchEvent());
+
     super.initState();
   }
 

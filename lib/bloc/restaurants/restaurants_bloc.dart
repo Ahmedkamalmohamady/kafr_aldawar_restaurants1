@@ -20,19 +20,23 @@ class RestaurantsBloc extends Bloc<RestaurantsEvent, RestaurantsState> {
       RestaurantsInitialFetchEvent event, Emitter<RestaurantsState> emit) async {
 
     emit(RestaurantsFetchingLoadingState());
+    print('res load');
 
     List<RestaurantForCard> restaurants = await RestaurantsFirebaseManger.getRestaurants();
 
     emit(RestaurantsFetchingSuccessfulState(restaurants: restaurants));
+    print('res success');
   }
 
   FutureOr<void> categoriesInitialFetchEvent(
       CategoriesInitialFetchEvent event, Emitter<RestaurantsState> emit) async {
 
     emit(CategoriesFetchingLoadingState());
+    print('cat load');
 
     List<Category> categoriesList = await RestaurantsFirebaseManger.getCategories();
 
     emit(CategoriesFetchingSuccessfulState(categoriesList: categoriesList));
+    print('cat success');
   }
 }

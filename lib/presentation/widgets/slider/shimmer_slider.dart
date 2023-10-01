@@ -14,19 +14,12 @@ class ShimmerSlider extends StatelessWidget {
       height: size.height * 0.2,
       width: size.width,
       child: Shimmer.fromColors(
-        baseColor: Colors.grey.shade300,
-        highlightColor: Colors.grey.shade100,
-        enabled: true,
+        baseColor: Colors.grey[100]!,
+        highlightColor: Colors.grey[300]!,
         child: CarouselSlider.builder(
-          itemCount: 0,
-          itemBuilder: (_, index, realIndex) => Stack(
-              children: [
-                SizedBox(width: size.width, height: size.height * 0.15,),
-                Align(
-                    alignment: Alignment.bottomCenter,
-                    child: SizedBox(width: size.width * 0.1, height: size.height * 0.1,)
-                ),
-              ]
+          itemCount: 3,
+          itemBuilder: (_, index, realIndex) => Card(
+            child: SizedBox(width: size.width, height: size.height * 0.2,),
           ),
           options: CarouselOptions(
             autoPlay: true,

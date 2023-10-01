@@ -19,7 +19,7 @@ class RestaurantCard extends StatelessWidget {
             Expanded(
                 flex: 5,
                 child: SizedBox(
-                  height: size.height * 0.1,
+                  height: size.height * 0.14,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Hero(
@@ -31,7 +31,7 @@ class RestaurantCard extends StatelessWidget {
             Expanded(
                 flex: 8,
                 child: SizedBox(
-                  height: size.height * 0.1,
+                  height: size.height * 0.15,
                   child: ClipRRect(
                     borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(20),

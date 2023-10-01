@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:firebase_storage/firebase_storage.dart';
 
 import '../models/category_model.dart';
 import '../models/restaurant_model.dart';
@@ -17,7 +18,15 @@ class RestaurantsFirebaseManger {
 
       for (var snapshot in snapshots.docs){
         map = snapshot.data() as Map<String, dynamic>;
-        restaurantForCardList.add(RestaurantForCard.fromMap(map));
+        restaurantForCardList.add(RestaurantForCard(
+          restaurantId: snapshot.id,
+          title: map['title'] as String,
+          coverUrl: map['coverUrl'] as String,
+          logoImageUrl: map['logoImageUrl'] as String,
+          categories: List<String>.from(map['categories'] ?? []),
+          fav: map['fav'] ?? false,
+          verified: map['verified'] ?? false,
+        ));
       }
 
       return restaurantForCardList;
@@ -51,11 +60,15 @@ class RestaurantsFirebaseManger {
       snapshots = await FirebaseFirestore.instance.collection('Categories').get();
 
       List<Category> categoriesList = [];
-      Map<String, dynamic> map ;
+      Map<String, dynamic> map;
 
       for (var snapshot in snapshots.docs){
         map = snapshot.data() as Map<String, dynamic>;
-        categoriesList.add(Category.fromMap(map));
+        categoriesList.add(Category.fromMap({
+          'title': snapshot.id,
+          'restaurantIdsList': map['restaurantIdsList'] as dynamic,
+          'logoUrl': map['logoUrl'] as String
+        }));
       }
 
       return categoriesList;
