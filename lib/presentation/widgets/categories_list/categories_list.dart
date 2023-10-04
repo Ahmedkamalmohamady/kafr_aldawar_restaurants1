@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kafr_aldawar_restaurants/bloc/restaurants/restaurants_bloc.dart';
+import 'package:kafr_aldawar_restaurants/shared/global.dart';
 
-import '../../../data/models/category_model.dart';
+class CategoriesList extends StatefulWidget {
+  const CategoriesList({super.key});
 
-class CategoriesList extends StatelessWidget {
-  final List<Category> categories;
-  const CategoriesList({super.key, required this.categories});
+  @override
+  State<CategoriesList> createState() => _CategoriesListState();
+}
+
+class _CategoriesListState extends State<CategoriesList> {
+
+  bool choosed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -12,19 +20,36 @@ class CategoriesList extends StatelessWidget {
 
     return ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: categories.length,
-      itemBuilder: (ctx, index) => Padding(
-        padding: EdgeInsets.symmetric(horizontal: size.width * 0.02),
+      itemCount: showedCategories.length,
+      itemBuilder: (ctx, index) => InkWell(
+        onTap: (){
+          if(choosed){
+            setState(() {
+              choosed = false;
+            });
+            BlocProvider.of<RestaurantsBloc>(context).add(
+                GetListOfRestaurantsForCategoryEvent(categoryId: null));
+          }else {
+            setState(() {
+              choosed = true;
+            });
+            BlocProvider.of<RestaurantsBloc>(context).add(
+                GetListOfRestaurantsForCategoryEvent(categoryId: showedCategories[index].title));
+          }
+        },
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Card(
+              color: choosed ? Colors.green : null,
                 child: Padding(
                   padding: EdgeInsets.all(size.height * 0.01),
-                  child: Image.network(categories[index].logoUrl, height: size.height * 0.08),
+                  child: Image.network(
+                      showedCategories[index].logoUrl,
+                      height: size.height * 0.07),
                 )
             ),
-            Text(categories[index].title)
+            Text(showedCategories[index].title)
           ],
         ),
       ),

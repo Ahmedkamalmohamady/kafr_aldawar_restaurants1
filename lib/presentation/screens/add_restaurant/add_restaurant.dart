@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kafr_aldawar_restaurants/presentation/screens/add_restaurant/choose_categories.dart';
 
 import '../../../data/models/branches_model.dart';
 
@@ -20,9 +21,9 @@ class _AddRestaurantState extends State<AddRestaurant> {
 
   final _formKey = GlobalKey<FormState>();
 
-  final _titleController = TextEditingController();
-  final _startTimeController = TextEditingController();
-  final _endTimeController = TextEditingController();
+  final picker = ImagePicker();
+
+  String? _errorMessage;
 
   bool coverSelected = false;
   bool logoSelected = false;
@@ -31,6 +32,10 @@ class _AddRestaurantState extends State<AddRestaurant> {
   bool timeSelected = false;
   bool dateSelected = false;
   bool categoriesSelected = false;
+
+  final _titleController = TextEditingController();
+  final _startTimeController = TextEditingController();
+  final _endTimeController = TextEditingController();
 
   File coverImage = File('');
   File logoImage = File('');
@@ -41,15 +46,16 @@ class _AddRestaurantState extends State<AddRestaurant> {
     Branch(address: 'احمد عرابي', phoneNumber: '01287654321'),
     Branch(address: 'احمد خميس', phoneNumber: '01125468793'),
   ];
-  List<String> features = [];
+  List<String> features = ['WiFi'];
   List<String> categories = [];
 
-  final picker = ImagePicker();
 
 
   @override
   void dispose() {
     _titleController.dispose();
+    _startTimeController.dispose();
+    _endTimeController.dispose();
     super.dispose();
   }
 
@@ -59,13 +65,12 @@ class _AddRestaurantState extends State<AddRestaurant> {
 
     return WillPopScope(
       onWillPop: () async{
-
         return true;
       },
       child: Scaffold(
         body: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(size.height * 0.01),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -121,11 +126,13 @@ class _AddRestaurantState extends State<AddRestaurant> {
                                   child: SizedBox(
                                     width: size.width,
                                     height: size.height * 0.25,
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(25),
-                                        child: coverSelected?
-                                        Image.file(coverImage,fit: BoxFit.cover,) :
-                                        const Icon(Icons.add)
+                                    child: Card(
+                                      child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(25),
+                                          child: coverSelected?
+                                          Image.file(coverImage,fit: BoxFit.cover,) :
+                                          const Icon(Icons.add)
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -136,11 +143,13 @@ class _AddRestaurantState extends State<AddRestaurant> {
                                     child: SizedBox(
                                       width: size.height * 0.1,
                                       height: size.height * 0.1,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(50),
-                                        child: logoSelected?
-                                        Image.file(logoImage,fit: BoxFit.cover,) :
-                                        const Icon(Icons.add)
+                                      child: Card(
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(50),
+                                          child: logoSelected?
+                                          Image.file(logoImage,fit: BoxFit.cover,) :
+                                          const Icon(Icons.add)
+                                        ),
                                       )
                                     ),
                                   )
@@ -151,11 +160,18 @@ class _AddRestaurantState extends State<AddRestaurant> {
                         SizedBox(height: size.height * 0.02),
 
                         //menu image list
-                        ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(Colors.green)),
-                          child: const Text('Select Image from Gallery and Camera'),
-                          onPressed: () => getMenuImages(),
+                        Center(
+                          child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                              elevation: 0,
+                              backgroundColor: Theme.of(context).focusColor,
+                              foregroundColor: Theme.of(context).primaryColor,
+                            ),
+                            icon: const Icon(Icons.add),
+                            label: const Text('Select Image from Gallery'),
+                            onPressed: () => getMenuImages(),
+                          ),
                         ),
                         SizedBox(
                           height: size.height * 0.3,
@@ -174,11 +190,18 @@ class _AddRestaurantState extends State<AddRestaurant> {
                         SizedBox(height: size.height * 0.02),
 
                         //restaurant images list
-                        ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(Colors.green)),
-                          child: const Text('Select Image from Gallery and Camera'),
-                          onPressed: () => getResImages(),
+                        Center(
+                          child: ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                              elevation: 0,
+                              backgroundColor: Theme.of(context).focusColor,
+                              foregroundColor: Theme.of(context).primaryColor,
+                            ),
+                            icon: const Icon(Icons.add),
+                            label: const Text('Select Image from Gallery'),
+                            onPressed: () => getResImages(),
+                          ),
                         ),
                         SizedBox(
                           height: size.height * 0.3,
@@ -213,6 +236,7 @@ class _AddRestaurantState extends State<AddRestaurant> {
                                     errorBorder: const OutlineInputBorder(
                                         borderRadius: BorderRadius.all(Radius.circular(20))
                                     ),
+                                    prefixIcon: const Icon(Icons.access_time),
                                     border: const OutlineInputBorder(
                                         borderRadius: BorderRadius.all(Radius.circular(20))),
                                     hintText: 'Start',
@@ -235,6 +259,7 @@ class _AddRestaurantState extends State<AddRestaurant> {
                                     errorBorder: const OutlineInputBorder(
                                         borderRadius: BorderRadius.all(Radius.circular(20))
                                     ),
+                                    prefixIcon: const Icon(Icons.access_time),
                                     border: const OutlineInputBorder(
                                         borderRadius: BorderRadius.all(Radius.circular(20))
                                     ),
@@ -248,10 +273,81 @@ class _AddRestaurantState extends State<AddRestaurant> {
                         ),
                         SizedBox(height: size.height * 0.02),
 
-                        if (true)
-                          const Text('val.errorMessage!',style: TextStyle(color: Colors.red)),
+                        //branches + features + categories
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: size.width * 0.01),
+                                child: SizedBox(
+                                    height: size.height * 0.15,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                        elevation: 0,
+                                        backgroundColor: Theme.of(context).focusColor,
+                                        foregroundColor: Theme.of(context).primaryColor,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Add Branch', textAlign: TextAlign.center,),
+                                    )
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: size.width * 0.01),
+                                child: SizedBox(
+                                    height: size.height * 0.15,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                        elevation: 0,
+                                        backgroundColor: Theme.of(context).focusColor,
+                                        foregroundColor: Theme.of(context).primaryColor,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Add Features', textAlign: TextAlign.center,),
+                                    )
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: size.width * 0.01),
+                                child: SizedBox(
+                                    height: size.height * 0.15,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                                        elevation: 0,
+                                        backgroundColor: Theme.of(context).focusColor,
+                                        foregroundColor: Theme.of(context).primaryColor,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(builder: (context) => const ChooseCategories())
+                                        ).then((value) {
+                                          if(value != null) categories = value as List<String>;
+                                        });
+                                      },
+                                      child: const Text('Add Categories', textAlign: TextAlign.center,),
+                                    )
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                         SizedBox(height: size.height * 0.02),
 
+                        if (_errorMessage != null) Text(_errorMessage!,style: const TextStyle(color: Colors.red)),
+                        SizedBox(height: size.height * 0.02),
+
+                        SizedBox(height: size.height * 0.02),
                         //add or cancel
                         Row(
                           children: [
@@ -282,7 +378,7 @@ class _AddRestaurantState extends State<AddRestaurant> {
                                   height: size.height * 0.08,
                                   child: ElevatedButton(
                                     onPressed: () async{
-                                      await uploadRestaurant();
+                                      await uploadRestaurant(context);
                                     },
                                     child: const Text('Add'),
                                   ),
@@ -367,7 +463,7 @@ class _AddRestaurantState extends State<AddRestaurant> {
 
   FirebaseStorage storage = FirebaseStorage.instance;
 
-  Future uploadRestaurant() async{
+  Future uploadRestaurant(BuildContext context) async{
 
     String title = _titleController.text;
 
@@ -409,7 +505,7 @@ class _AddRestaurantState extends State<AddRestaurant> {
         "menuImagesList": menuImagesList,
         "restaurantImagesList": restaurantImagesList,
 
-        "lastUpdate": DateTime.now(),
+        "lastUpdate": DateTime.now().toIso8601String(),
 
         "startTime": int.parse(_startTimeController.text),
         "endTime": int.parse(_endTimeController.text),
@@ -420,18 +516,21 @@ class _AddRestaurantState extends State<AddRestaurant> {
         "categories": categories,
 
         "views": 0,
-        "fav": false,
         "verified": false,
       };
 
       // Add the data to Firestore
       await restaurantCollection.add(map);
 
-      print('Restaurant added to Firestore successfully');
+      if(context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Restaurant added to Firestore successfully')));
+      }
 
     } catch (e) {
-      // Error occurred while uploading the image
-      print('Error uploading Restaurant: $e');
+      if(context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error uploading Restaurant: $e')));
+      }
     }
 
   }

@@ -21,9 +21,9 @@ class RestaurantForCard {
 
   });
 
-  factory RestaurantForCard.fromMap(Map<String, dynamic> map) {
+  factory RestaurantForCard.fromMap(Map<String, dynamic> map, String id) {
     return RestaurantForCard(
-      restaurantId: map['restaurantId'] ?? '',
+      restaurantId: id,
       title: map['title'] ?? '',
       coverUrl: map['coverUrl'] ?? '',
       logoImageUrl: map['logoImageUrl'] ?? '',
@@ -95,29 +95,29 @@ class RestaurantDetails {
     this.verified = false,
   });
 
-  factory RestaurantDetails.fromMap(Map<String, dynamic> map) {
+  factory RestaurantDetails.fromMap(Map<String, dynamic> map, String id, bool fav) {
     return RestaurantDetails(
-      restaurantId: map['restaurantId'] ?? '',
+      restaurantId: id,
 
-      title: map['title'] ?? '',
+      title: map['title'] ?? '_empty_title',
 
-      coverUrl: map['coverUrl'] ?? '',
-      logoImageUrl: map['logoImageUrl'] ?? '',
+      coverUrl: map['coverUrl'] ?? '_empty_coverUrl',
+      logoImageUrl: map['logoImageUrl'] ?? '_empty_logoUrl',
 
-      menuImagesList: map['menuImagesList'] ?? [],
-      restaurantImagesList: map['restaurantImagesList'] ?? [],
+      menuImagesList: List<String>.from(map['menuImagesList'] ?? []),
+      restaurantImagesList: List<String>.from(map['restaurantImagesList'] ?? []),
 
-      lastUpdate : map['lastUpdate'] ?? DateTime.now(),
+      lastUpdate : map['lastUpdate'] == null ? DateTime.now() : DateTime.parse(map['lastUpdate'] as String),
       startTime: map['startTime'] ?? 8,
       endTime: map['endTime'] ?? 23,
 
-      branches: map['branches'] == null ? []: Branch.decode(map['branches']),
-      features: map['features'] ?? [],
-      categories: map['categories'] ?? [],
+      branches: map['branches'] == null ? []: Branch.decode(List<Map<String, dynamic>>.from(map['branches'])),
+      features: List<String>.from(map['features'] ?? []),
+      categories: List<String>.from(map['categories'] ?? []),
 
       views: map['views'] ?? 0,
-      valid: map['valid'] ?? false,
-      fav: map['fav'] ?? false,
+      valid: false,
+      fav: fav,
       verified: map['verified'] ?? false,
     );
   }
@@ -133,7 +133,7 @@ class RestaurantDetails {
     "menuImagesList": restaurantDetails.menuImagesList,
     "restaurantImagesList": restaurantDetails.restaurantImagesList,
 
-    "lastUpdate": restaurantDetails.lastUpdate,
+    "lastUpdate": restaurantDetails.lastUpdate?.toIso8601String(),
 
     "startTime": restaurantDetails.startTime,
     "endTime": restaurantDetails.endTime,
@@ -144,8 +144,6 @@ class RestaurantDetails {
     "categories": restaurantDetails.categories,
 
     "views": restaurantDetails.views,
-    "valid": restaurantDetails.valid,
-    "fav": restaurantDetails.fav,
     "verified": restaurantDetails.verified,
   };
 }

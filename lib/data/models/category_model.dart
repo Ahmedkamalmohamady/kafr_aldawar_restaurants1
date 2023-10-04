@@ -1,7 +1,3 @@
-
-import 'dart:convert';
-
-
 class Category {
   List<String> restaurantIdsList;
   String title;
@@ -13,10 +9,10 @@ class Category {
     this.logoUrl = "",
   });
 
-  factory Category.fromMap(Map<String, dynamic> map) {
+  factory Category.fromMap(Map<String, dynamic> map, String id) {
     return Category(
       restaurantIdsList: List<String>.from(map['restaurantIdsList'] ?? []),
-      title: map['title'] ?? '',
+      title: id,
       logoUrl: map['logoUrl'] ?? '',
     );
   }
@@ -26,11 +22,4 @@ class Category {
     "title": restaurantDetails.title,
     "logoUrl": restaurantDetails.logoUrl,
   };
-
-  static String encode(List<Category> categoryList) => json.encode(
-      categoryList.map<Map<String, dynamic>>((category) => Category.toMap(category)).toList());
-
-  static List<Category> decode(String categoryList) => ((json.decode(categoryList))
-      .map((item) => item as Map<String, dynamic>).toList())
-      .map<Category>((item) => Category.fromMap(item)).toList();
 }

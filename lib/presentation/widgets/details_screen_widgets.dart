@@ -2,11 +2,8 @@ import 'dart:developer';
 
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
-
 class CustomCategoryIcon extends StatelessWidget {
-  const CustomCategoryIcon({
-    super.key,
-  });
+  const CustomCategoryIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -153,74 +150,33 @@ class CustomButtonTapBar extends StatelessWidget {
     super.key,
     required TabController? tabController,
     required this.orangeColor,
-    required this.width,
+    required this.size,
   }) : _tabController = tabController;
 
   final TabController? _tabController;
   final Color orangeColor;
-  final double width;
+  final Size size;
 
   @override
   Widget build(BuildContext context) {
     return ButtonsTabBar(
       radius: 15,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 18),
-      buttonMargin: const EdgeInsets.symmetric(horizontal: 10),
+      height: size.height * 0.08,
+      contentPadding: EdgeInsets.all(size.height * 0.01),
+      buttonMargin: EdgeInsets.all(size.height * 0.01),
       controller: _tabController,
       backgroundColor: orangeColor,
-      unselectedBackgroundColor: const Color(0xffD9D9D9),
+      unselectedBackgroundColor: Colors.grey,
       unselectedLabelStyle: const TextStyle(
           color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
       labelStyle: const TextStyle(
           fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
-      tabs: [
-        Tab(
-            child: SizedBox(
-              width: 90 / 428 * width,
-              child: const Center(
-                  child: Text('منيو', style: TextStyle(color: Colors.white))),
-            )),
-        const Tab(
-          text: "ارقام وبيانات",
-        ),
-        const Tab(
-          text: "عروض واخبار ",
-        ),
+      tabs: const [
+        Tab(text: "منيو وصور"),
+        Tab(text: "ارقام وبيانات"),
+        Tab(text: "عروض واخبار"),
       ],
     );
-  }
-}
-
-class CustomNetworkImage extends StatelessWidget {
-  const CustomNetworkImage(
-      {super.key,
-        this.height,
-        required this.orangeColor,
-        required this.imageUrl});
-
-  final double? height;
-  final Color? orangeColor;
-  final String imageUrl;
-
-  @override
-  Widget build(BuildContext context) {
-    return Image.network(
-        fit: BoxFit.cover,
-        height: height == null ? double.infinity : (300 / 923) * height!,
-        imageUrl, loadingBuilder: (context, child, loadingProgress) {
-      if (loadingProgress == null) {
-        return child;
-      }
-      return Center(
-        child: CircularProgressIndicator(
-          color: orangeColor,
-          value: loadingProgress.expectedTotalBytes != null
-              ? loadingProgress.cumulativeBytesLoaded /
-              loadingProgress.expectedTotalBytes!
-              : null,
-        ),
-      );
-    });
   }
 }
 

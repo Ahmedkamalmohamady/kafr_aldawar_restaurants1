@@ -1,53 +1,30 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:firebase_storage/firebase_storage.dart';
 
+import '../../shared/global.dart';
 import '../models/category_model.dart';
 import '../models/restaurant_model.dart';
 
 class RestaurantsFirebaseManger {
 
-  static Future<List<RestaurantForCard>> getRestaurants() async {
+  static Future<List<RestaurantDetails>> getRestaurantsDetails() async {
 
     QuerySnapshot snapshots;
     try{
       snapshots = await FirebaseFirestore.instance.collection('Restaurants').get();
 
-      List<RestaurantForCard> restaurantForCardList = [];
+      List<RestaurantDetails> restaurantsDetails = [];
 
       Map<String, dynamic> map ;
+      bool fav;
 
       for (var snapshot in snapshots.docs){
         map = snapshot.data() as Map<String, dynamic>;
-        restaurantForCardList.add(RestaurantForCard(
-          restaurantId: snapshot.id,
-          title: map['title'] as String,
-          coverUrl: map['coverUrl'] as String,
-          logoImageUrl: map['logoImageUrl'] as String,
-          categories: List<String>.from(map['categories'] ?? []),
-          fav: map['fav'] ?? false,
-          verified: map['verified'] ?? false,
-        ));
+        fav = favRestaurantsIds.contains(snapshot.id) ? true : false;
+        restaurantsDetails.add(RestaurantDetails.fromMap(map, snapshot.id, fav));
       }
 
-      return restaurantForCardList;
-    }on FirebaseException {
-      rethrow;
-    }
-  }
-
-  static Future<RestaurantDetails> getRestaurant(String restaurantId) async {
-    DocumentSnapshot doc;
-    try{
-      doc = await FirebaseFirestore.instance
-          .collection('Restaurants')
-          .doc(restaurantId)
-          .get();
-      if (doc.exists) {
-        var map = doc.data() as Map<String, dynamic>;
-        return RestaurantDetails.fromMap(map);
-      } else {
-        throw('something wont wrong');
-      }
+      return restaurantsDetails;
     }on FirebaseException {
       rethrow;
     }
@@ -64,34 +41,12 @@ class RestaurantsFirebaseManger {
 
       for (var snapshot in snapshots.docs){
         map = snapshot.data() as Map<String, dynamic>;
-        categoriesList.add(Category.fromMap({
-          'title': snapshot.id,
-          'restaurantIdsList': map['restaurantIdsList'] as dynamic,
-          'logoUrl': map['logoUrl'] as String
-        }));
+        categoriesList.add(Category.fromMap(map, snapshot.id));
       }
 
       return categoriesList;
     }on FirebaseException {
       rethrow;
     }
-  }
-
-  static Future<List<RestaurantDetails>> getRestaurantsByIds(List<String> restaurantsIdsList) async {
-
-    try{
-      List<RestaurantDetails> restaurantDetailsList = [];
-      RestaurantDetails restaurantDetails;
-
-      for(String id in restaurantsIdsList){
-        restaurantDetails = await getRestaurant(id);
-        restaurantDetailsList.add(restaurantDetails);
-      }
-
-      return restaurantDetailsList;
-    }on FirebaseException {
-      rethrow;
-    }
-
   }
 }

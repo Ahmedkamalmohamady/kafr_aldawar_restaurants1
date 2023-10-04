@@ -1,18 +1,24 @@
+import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import '../../widgets/details_screen_widgets.dart';
+import '../../../bloc/restaurants/restaurants_bloc.dart';
+import '../../../data/models/restaurant_model.dart';
+import '../../../shared/global.dart';
 
 class DetailsScreen extends StatefulWidget {
-  const DetailsScreen({super.key});
+  final RestaurantDetails restaurant;
+  const DetailsScreen({super.key, required this.restaurant});
 
   @override
   State<DetailsScreen> createState() => _DetailsScreenState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen>
-    with SingleTickerProviderStateMixin {
+class _DetailsScreenState extends State<DetailsScreen> with SingleTickerProviderStateMixin {
+
   TabController? _tabController;
-  Color orangeColor = const Color(0xffEF9E28);
+
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this);
@@ -21,191 +27,254 @@ class _DetailsScreenState extends State<DetailsScreen>
 
   @override
   Widget build(BuildContext context) {
+    RestaurantDetails restaurant = widget.restaurant;
+    Color color = Theme.of(context).primaryColor;
     var size = MediaQuery.of(context).size;
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        // backgroundColor: Color(0xffF4F5F7),
-        body: Column(children: [
-          Stack(
-            children: [
-              SizedBox(
-                width: size.width,
-                height: (380 / 923) * size.height,
-              ),
-              ClipRRect(
-                borderRadius: const BorderRadius.only(
-                    bottomRight: Radius.circular(25),
-                    bottomLeft: Radius.circular(25)),
-                child: CustomNetworkImage(
-                    imageUrl:
-                    'https://scontent-lax3-2.xx.fbcdn.net/v/t39.30808-6/306097180_406548858289783_8439672170480249772_n.png?_nc_cat=101&ccb=1-7&_nc_sid=52f669&_nc_ohc=Yuk-jaNI7ZAAX-S8-69&_nc_ht=scontent-lax3-2.xx&oh=00_AfAl6GT4xznCKilwk7cdTMaejYvH9jWKqlHSUNcvXxJN7g&oe=64F8919F',
-                    height: size.height,
-                    orangeColor: orangeColor),
-              ),
-              Positioned(
-                top: 190,
-                left: 100,
-                right: 100,
-                child: CircleAvatar(
-                  radius: 60,
-                  backgroundColor: Colors.white10,
-                  child: ClipOval(
-                    child: CustomNetworkImage(
-                        orangeColor: orangeColor,
-                        imageUrl:
-                        'https://scontent-lax3-1.xx.fbcdn.net/v/t39.30808-6/306956689_406548861623116_8188228039607414689_n.png?_nc_cat=104&ccb=1-7&_nc_sid=a2f6c7&_nc_ohc=z7H5J9N4gD0AX83CXiO&_nc_ht=scontent-lax3-1.xx&oh=00_AfAFB88RJ6zy4qqzsSddoFJuI9qepYYTViZg16k1tvVPTQ&oe=64F8917C'),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 5),
-          const Text(
-            'CHUNKY - تشانكي',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 20),
-          CustomButtonTapBar(
-              tabController: _tabController,
-              orangeColor: orangeColor,
-              width: size.width),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: <Widget>[
-                ///اول حاجه خاصه بالمنيو
-                ///الصور محتاجه ترجع فى ليست برضو والهيرو دى عاوزه تتظبط فى الصفحة اللى بيتعرض فيها الصوره كامله
-                PageView(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: Row(
-                        children: [
-                          const Spacer(flex: 2),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const DetailPage(
-                                    imageUrl:
-                                    'https://scontent.fcai19-5.fna.fbcdn.net/v/t39.30808-6/329126097_1556236998213901_9082040199403998335_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=37c68a&_nc_ohc=Bv3pOkK7-SwAX-XQPHk&_nc_ht=scontent.fcai19-5.fna&oh=00_AfAkn9C9Owqi8sa21BiO6qronj45JpefbjV1LAx10Cfblg&oe=64FA9784',
-                                  ),
+
+    return DefaultTabController(
+      length: 3,
+      child: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+            body: NestedScrollView(
+              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                return <Widget>[
+                  SliverAppBar(
+                    forceElevated: innerBoxIsScrolled,
+                    automaticallyImplyLeading: false,
+                    expandedHeight: size.height * 0.34,
+                    backgroundColor: Theme
+                        .of(context)
+                        .scaffoldBackgroundColor,
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: SizedBox(
+                        width: size.width,
+                        height: size.height * 0.3,
+                        child: Stack(
+                            children: [
+                              SizedBox(
+                                width: size.width,
+                                height: size.height * 0.3,
+                                child: ClipRRect(
+                                    borderRadius: const BorderRadius.vertical(
+                                        bottom: Radius.circular(15)),
+                                    child: Image.network(
+                                      restaurant.coverUrl, fit: BoxFit.cover,)
                                 ),
-                              );
-                            },
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: Hero(
-                                    transitionOnUserGestures: true,
-                                    tag: 'image1',
-                                    child: CustomNetworkImage(
-                                      orangeColor: orangeColor,
-                                      imageUrl:
-                                      'https://scontent.fcai19-5.fna.fbcdn.net/v/t39.30808-6/329126097_1556236998213901_9082040199403998335_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=37c68a&_nc_ohc=Bv3pOkK7-SwAX-XQPHk&_nc_ht=scontent.fcai19-5.fna&oh=00_AfAkn9C9Owqi8sa21BiO6qronj45JpefbjV1LAx10Cfblg&oe=64FA9784',
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                right: size.width * 0.05,
+                                child: SizedBox(
+                                  width: size.height * 0.12,
+                                  height: size.height * 0.12,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Hero(
+                                      tag: restaurant.restaurantId,
+                                      child: Image.network(
+                                        restaurant.logoImageUrl,
+                                        fit: BoxFit.cover,),
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                          const Spacer(flex: 1),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const DetailPage(
-                                    imageUrl:
-                                    'https://scontent.fcai19-5.fna.fbcdn.net/v/t39.30808-6/329126097_1556236998213901_9082040199403998335_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=37c68a&_nc_ohc=Bv3pOkK7-SwAX-XQPHk&_nc_ht=scontent.fcai19-5.fna&oh=00_AfAkn9C9Owqi8sa21BiO6qronj45JpefbjV1LAx10Cfblg&oe=64FA9784',
-                                  ),
-                                ),
-                              );
-                            },
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: Hero(
-                                    tag: 'image2',
-                                    child: CustomNetworkImage(
-                                      orangeColor: orangeColor,
-                                      imageUrl:
-                                      'https://scontent.fcai19-5.fna.fbcdn.net/v/t39.30808-6/329126097_1556236998213901_9082040199403998335_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=37c68a&_nc_ohc=Bv3pOkK7-SwAX-XQPHk&_nc_ht=scontent.fcai19-5.fna&oh=00_AfAkn9C9Owqi8sa21BiO6qronj45JpefbjV1LAx10Cfblg&oe=64FA9784',
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                right: size.width * 0.3,
+                                child: Row(
+                                  children: [
+                                    Text(restaurant.title, style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .titleLarge,),
+                                    SizedBox(width: size.width * 0.05,),
+                                    IconButton(
+                                      onPressed: () {
+                                        restaurant.fav
+                                            ? BlocProvider.of<RestaurantsBloc>(context).add(RemoveRestaurantFromFavouritesEvent(restaurantId: restaurant.restaurantId))
+                                            : BlocProvider.of<RestaurantsBloc>(context).add(AddRestaurantToFavouritesEvent(restaurantId: restaurant.restaurantId));
+                                      },
+                                      icon: Icon(restaurant.fav
+                                          ? Icons.favorite
+                                          : Icons.favorite_border),
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                          const Spacer(flex: 2),
-                        ],
+                              ),
+                            ]
+                        ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ];
+              },
+              body: Column(
+                children: [
+                  Center(
+                    child: ButtonsTabBar(
+                      controller: _tabController,
+                      radius: 15,
+                      height: size.height * 0.13,
+                      contentPadding: EdgeInsets.all(size.height * 0.01),
+                      buttonMargin: EdgeInsets.all(size.height * 0.03),
+                      backgroundColor: color,
+                      unselectedBackgroundColor: Colors.grey,
+                      labelStyle: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                      unselectedLabelStyle: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600),
+                      tabs: const [
+                        Tab(text: "منيو وصور"),
+                        Tab(text: "ارقام وبيانات"),
+                        Tab(text: "عروض واخبار"),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                      controller: _tabController,
+                      children: [
+                        SingleChildScrollView(
+                          child: Padding(
+                            padding: EdgeInsets.all(size.height * 0.02,),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if(restaurant.menuImagesList.isNotEmpty) ...[
+                                  Text('المنيو', style: Theme.of(context).textTheme.titleLarge,),
+                                  SizedBox(
+                                    height: size.height * 0.25,
+                                    child: ListView.separated(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: restaurant.menuImagesList.length,
+                                        separatorBuilder: (_, __) =>
+                                            Padding(padding: EdgeInsets.all(
+                                                size.height * 0.01),),
+                                        itemBuilder: (ctx, index) =>
+                                            Image.network(
+                                              restaurant.menuImagesList[index],
+                                              height: size.height * 0.25,
+                                              width: size.width * 0.3,
+                                              fit: BoxFit.cover,
+                                            )
+                                    ),
+                                  )],
 
-                ///تانى حاجه بتاعة البيانات
-                SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomLocationContainer(height: size.height, width: size.width),
-                      ExpansionTile(
-                        textColor: orangeColor,
-                        iconColor: orangeColor,
-                        title: const Text(
-                          'الارقام',
-                          style: TextStyle(
-                            fontSize: 19,
-                            fontWeight: FontWeight.w600,
+                                if(restaurant.restaurantImagesList.isNotEmpty) ...[
+                                  Text('المطعم', style: Theme.of(context).textTheme.titleLarge,),
+                                  SizedBox(
+                                    height: size.height * 0.25,
+                                    child: ListView.separated(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: restaurant.restaurantImagesList.length,
+                                        separatorBuilder: (_, __) =>
+                                            Padding(padding: EdgeInsets.all(
+                                                size.height * 0.01),),
+                                        itemBuilder: (ctx, index) =>
+                                            Image.network(
+                                              restaurant.restaurantImagesList[index],
+                                              height: size.height * 0.25,
+                                              width: size.width * 0.3,
+                                              fit: BoxFit.cover,
+                                            )
+                                    ),
+                                  )],
+
+                                Center(child: Text('اخر تحديث في ${restaurant.lastUpdate!.toString()}', style: Theme.of(context).textTheme.titleLarge,)),
+                              ],
+                            ),
                           ),
                         ),
-                        children: [
-                          ///المفروض ليست فيها رقم التليفون والفانكشن بتاعة الكول تتعمل وممكن نزود اوبشن ارقم تلبفون انهى فرع لو فى فروع تانيه
-                          ///وممكن نخليها ليست فيو لو منفعتش expansiontile دى
-                          CustomNumberContainer(
-                              height: size.height,
-                              width: size.width,
-                              orangeColor: orangeColor),
-                          CustomNumberContainer(
-                              height: size.height,
-                              width: size.width,
-                              orangeColor: orangeColor),
-                          CustomNumberContainer(
-                              height: size.height,
-                              width: size.width,
-                              orangeColor: orangeColor),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 120,
-                        child: ListView.builder(
-                          itemCount: 2,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) =>
 
-                          ///المفروض هنعمل ليست راجع فيها موديل شايل الاسم والايقون
-                          const CustomCategoryIcon(),
+                        SingleChildScrollView(
+                          child: Padding(
+                            padding: EdgeInsets.all(size.height * 0.02,),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text('الفروع', style: Theme.of(context).textTheme.titleLarge,),
+                                ...
+                                restaurant.branches.map((branch) => Card(
+                                  child: ExpansionTile(
+                                    childrenPadding: EdgeInsets.all(size.height * 0.01),
+                                    title: Text(branch.address, style: Theme.of(context).textTheme.titleLarge,),
+                                    children: [
+                                      ListTile(
+                                        title: Text(branch.phoneNumber, style: Theme.of(context).textTheme.titleLarge,),
+                                        trailing: InkWell(
+                                          onTap: () => launchUrl(Uri.parse('tel:+2${branch.phoneNumber}')),
+                                          child: CircleAvatar(
+                                            radius: 25,
+                                            backgroundColor: Theme.of(context).focusColor,
+                                            child: const Icon(Icons.phone),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )).toList(),
+
+                                if(restaurant.features.isNotEmpty) ...[
+                                  Text('المميزات', style: Theme.of(context).textTheme.titleLarge,),
+                                  SizedBox(
+                                    height: size.height * 0.15,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: 3,
+                                      itemBuilder: (ctx, index) => Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Card(
+                                              child: Padding(
+                                                padding: EdgeInsets.all(size.height * 0.01),
+                                                child: Image.network(myCategories[index].logoUrl, height: size.height * 0.07),
+                                              )
+                                          ),
+                                          Text(myCategories[index].title)
+                                        ],
+                                      ),
+                                    ),
+                                  )],
+
+                                Text('التصنيفات', style: Theme.of(context).textTheme.titleLarge,),
+                                SizedBox(
+                                  height: size.height * 0.15,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: 3,
+                                    itemBuilder: (ctx, index) => Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Card(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(size.height * 0.01),
+                                              child: Image.network(myCategories[index].logoUrl, height: size.height * 0.07),
+                                            )
+                                        ),
+                                        Text(myCategories[index].title)
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      )
-                    ],
-                  ),
-                ),
 
-                ///العروض
-                const Center(
-                  child:
-                  Text('انتظر العروض قريبا ', style: TextStyle(fontSize: 26)),
-                ),
-              ],
-            ),
-          ),
-        ]),
+                        Center(
+                          child: Text('انتظر العروض قريبا ', style: Theme
+                              .of(context)
+                              .textTheme
+                              .headlineMedium),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )
+        ),
       ),
     );
   }

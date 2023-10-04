@@ -10,8 +10,8 @@ class Branch {
 
   factory Branch.fromMap(Map<String, dynamic> map) {
     return Branch(
-      address: map['address'] ?? '',
-      phoneNumber: map['phoneNumber'] ?? '',
+      address: map['address'] as String,
+      phoneNumber: map['phoneNumber'] as String,
     );
   }
 

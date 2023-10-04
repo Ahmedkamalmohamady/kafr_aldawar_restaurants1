@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../bloc/restaurants/restaurants_bloc.dart';
-import '../home/home_screen.dart';
+import 'package:kafr_aldawar_restaurants/shared/global.dart';
+import '../home/nav_bar.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -16,12 +18,11 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
-
-
   @override
   void initState() {
-
     super.initState();
+    restaurantsBloc = RestaurantsBloc();
+    restaurantsBloc.add(AllDataFetchEvent());
   }
 
   @override
@@ -38,7 +39,10 @@ class _SplashScreenState extends State<SplashScreen> {
           fit: BoxFit.contain
       ),
       backgroundColor: Theme.of(context).splashColor,
-      nextScreen: const HomeScreen(),
+      nextScreen: BlocProvider(
+        create: (context) => restaurantsBloc,
+        child: const NavBar(),
+      ),
       splashTransition: SplashTransition.fadeTransition,
     );
   }

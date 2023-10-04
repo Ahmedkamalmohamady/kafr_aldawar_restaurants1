@@ -6,7 +6,6 @@ import 'package:kafr_aldawar_restaurants/bloc/restaurants/restaurants_bloc.dart'
 import 'package:kafr_aldawar_restaurants/bloc/theme/theme_bloc.dart';
 import 'package:kafr_aldawar_restaurants/shared/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'data/repos/restaurants_firebase.dart';
 import 'firebase_options.dart';
 
 import 'presentation/screens/splash/splash_screen.dart';
@@ -38,9 +37,12 @@ class MyApp extends StatelessWidget {
                 title: 'مطاعم كفرالدوار',
                 theme: AppTheme.lightTheme,
                 darkTheme: AppTheme.darkTheme,
-                themeMode: state.runtimeType == DarkThemeState ? ThemeMode
-                    .dark : ThemeMode.light,
-                home: const SplashScreen(),
+                themeMode: state.runtimeType == DarkThemeState ?
+                ThemeMode.dark : ThemeMode.light,
+                home: BlocProvider(
+                  create: (context) => RestaurantsBloc(),
+                  child: const SplashScreen(),
+                ),
               )
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kafr_aldawar_restaurants/shared/global.dart';
 
 import '../../../bloc/restaurants/restaurants_bloc.dart';
 
@@ -21,46 +22,41 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final _searchController = TextEditingController();
 
-  final RestaurantsBloc restaurantsBloc = RestaurantsBloc();
-  
   @override
-  void initState() {
-    restaurantsBloc.add(CategoriesInitialFetchEvent());
-    restaurantsBloc.add(RestaurantsInitialFetchEvent());
-    super.initState();
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    return BlocProvider(
-  create: (context) => restaurantsBloc,
-  child: BlocConsumer<RestaurantsBloc, RestaurantsState>(
-      listener: (context, state) {},
+    return BlocBuilder<RestaurantsBloc, RestaurantsState>(
       builder: (context, state) {
         return Scaffold(
             body: CustomScrollView(
               slivers: [
                 SliverAppBar(
-                  expandedHeight: size.height * 0.46,
+                  expandedHeight: size.height * 0.45,
                   backgroundColor: Theme.of(context).colorScheme.background,
                   flexibleSpace: FlexibleSpaceBar(
                     background: Column(
                       children: [
-                        SizedBox(height: size.height * 0.035),
+                        SizedBox(height: size.height * 0.04),
 
-                        state.runtimeType == RestaurantsFetchingSuccessfulState?
-                        ImagesSlider(restaurants: (state as RestaurantsFetchingSuccessfulState).restaurants) :
-                        const ShimmerSlider(),
+                        state.runtimeType == AllDataFetchingSuccessfulState?
+                        ImagesSlider(restaurants: myRestaurants) : const ShimmerSlider(),
                         SizedBox(height: size.height * 0.01),
 
                         // search bar + drawer + filter //0.08
                         SizedBox(
                           height: size.height * 0.08,
+                          width: size.width * 0.9,
                           child: TextField(
-                            //controller: _typeController,
+                            controller: _searchController,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(
                                   borderRadius:
@@ -71,7 +67,19 @@ class _HomeState extends State<Home> {
                                 Icons.search,
                                 color: Theme.of(context).primaryColor,
                               ),
+                              suffixIcon: IconButton(
+                                onPressed: (){
+                                  setState(() {
+                                    _searchController.clear();
+                                  });
+                                  BlocProvider.of<RestaurantsBloc>(context).add(
+                                      GetListOfRestaurantsBySearchEvent(searchText: null));
+                                },
+                                icon: const Icon(Icons.clear),
+                              )
                             ),
+                            onChanged: (val) => BlocProvider.of<RestaurantsBloc>(context).add(
+                                GetListOfRestaurantsBySearchEvent(searchText: val)),
                             keyboardType: TextInputType.text,
                           ),
                         ),
@@ -79,9 +87,8 @@ class _HomeState extends State<Home> {
 
                         // category list
                         Expanded(
-                          child: state.runtimeType == CategoriesFetchingSuccessfulState?
-                          CategoriesList(categories: (state as CategoriesFetchingSuccessfulState).categoriesList) :
-                          const ShimmerList(),
+                          child: state.runtimeType == AllDataFetchingSuccessfulState?
+                          const CategoriesList() : const ShimmerList(),
                         ),
                       ],
                     ),
@@ -89,17 +96,20 @@ class _HomeState extends State<Home> {
                 ),
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
-                        (ctx, index) => state.runtimeType == RestaurantsFetchingSuccessfulState?
-                        RestaurantCard(restaurant: (state as RestaurantsFetchingSuccessfulState).restaurants[index]) :
-                        const ShimmerCard(),
+                      (ctx, index) => state.runtimeType == AllDataFetchingSuccessfulState?
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: size.height * 0.01),
+                      child: RestaurantCard(restaurant: showedRestaurants[index]),
+                    ) : const ShimmerCard(),
 
-                    childCount: 10,
+                    childCount: state.runtimeType == AllDataFetchingSuccessfulState?
+                    showedRestaurants.length : 10,
                   ),
                 ),
               ],
-            ));
-      },
-    ),
+            )
+        );
+  },
 );
   }
 }

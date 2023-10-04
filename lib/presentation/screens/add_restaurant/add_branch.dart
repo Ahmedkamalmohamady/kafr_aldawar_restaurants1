@@ -144,18 +144,22 @@ class _CategoryWidgetState extends State<CategoryWidget> {
           }
         });
       },
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Card(
-              color: choosed == true? Colors.green : null,
-              child: Padding(
-                padding: EdgeInsets.all(widget.size.height * 0.01),
-                child: Image.network(widget.category.logoUrl, height: widget.size.height * 0.08),
-              )
-          ),
-          Text(widget.category.title)
-        ],
+      child: Container(
+        decoration: BoxDecoration(
+          color: choosed == true? Colors.green : null,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Card(
+                child: Padding(
+                  padding: EdgeInsets.all(widget.size.height * 0.01),
+                  child: Image.network(widget.category.logoUrl, height: widget.size.height * 0.08),
+                )
+            ),
+            Text(widget.category.title)
+          ],
+        ),
       ),
     );
   }

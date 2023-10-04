@@ -12,16 +12,14 @@ class AppTheme {
     hintColor: Colors.white,
     splashColor: Colors.white,
     colorScheme: ColorScheme.light(
-      background: Colors.white,
+      background: background,
       primary: primary,
       secondary: canvas,
       shadow: Colors.black,
       error: Colors.red,
     ),
     textTheme: TextTheme(
-      displayLarge: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.black)),
-      displayMedium: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.black87)),
-      displaySmall: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.black54)),
+      headlineMedium: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.black)),
       titleLarge: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.black)),
       titleMedium: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.black87)),
       titleSmall: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.black54)),
@@ -50,7 +48,7 @@ class AppTheme {
       elevation: 10,
       backgroundColor: Colors.white,
     ),
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: background,
     disabledColor: const Color(0xff909090),
     shadowColor: Colors.black54,
   );
@@ -70,9 +68,7 @@ class AppTheme {
       error: Colors.red,
     ),
     textTheme: TextTheme(
-      displayLarge: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.white)),
-      displayMedium: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.white70)),
-      displaySmall: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.white60)),
+      headlineMedium: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.white)),
       titleLarge: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.white)),
       titleMedium: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.white70)),
       titleSmall: GoogleFonts.roboto(textStyle: const TextStyle(color: Colors.white60)),

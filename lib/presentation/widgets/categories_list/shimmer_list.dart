@@ -15,7 +15,7 @@ class ShimmerList extends StatelessWidget {
             baseColor: Colors.grey[100]!,
             highlightColor: Colors.grey[300]!,
             child: Card(
-              child: SizedBox(height: size.height * 0.08, width: size.height * 0.15),
+              child: SizedBox(height: size.height * 0.08, width: size.height * 0.08),
             ),
           )
     );

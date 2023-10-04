@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../data/models/restaurant_model.dart';
 
 class ImagesSlider extends StatelessWidget {
-  final List<RestaurantForCard> restaurants;
+  final List<RestaurantDetails> restaurants;
   const ImagesSlider({super.key, required this.restaurants});
 
   @override
@@ -16,15 +16,31 @@ class ImagesSlider extends StatelessWidget {
       itemBuilder: (_, index, realIndex) => Stack(
           children: [
             SizedBox(
-                height: size.height * 0.15,
+                height: size.height * 0.18,
                 width: size.width,
-                child: Image.network(restaurants[index].coverUrl, fit: BoxFit.cover,)
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      restaurants[index].coverUrl, fit: BoxFit.cover,
+                      loadingBuilder: (_, __, ___) {
+                        if (___ == null) return __;
+                        return const CircularProgressIndicator();
+                      },
+                      errorBuilder: (_, __, ___) => const Align(
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.broken_image,
+                          size: 100,
+                        ),
+                      ),
+                    ),
+                )
             ),
             Align(
                 alignment: Alignment.bottomCenter,
                 child: SizedBox(
-                  width: size.height * 0.05,
-                  height: size.height * 0.05,
+                  width: size.height * 0.07,
+                  height: size.height * 0.07,
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(50),
                       child: Image.network(restaurants[index].logoImageUrl, fit: BoxFit.cover,)),
